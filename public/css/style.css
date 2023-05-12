@@ -1,0 +1,48 @@
+
+
+form{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.textin{
+    width: 300px;
+    border-radius: 3px;
+    height: 25px;
+}
+::placeholder{
+    font-size: 15px;
+}
+
+label{
+    font-weight: bold;
+    font-style: italic;
+}
+
+h1{
+    font-family: "Arial", sans-serif;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  color: #333;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.imgs{
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.btn{
+    height: 25px;
+    width: 300px;
+    background-color: aquamarine;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: bold;
+}
