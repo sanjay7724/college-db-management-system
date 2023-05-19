@@ -27,10 +27,10 @@
         const queryParams = new URLSearchParams();
         queryParams.append('button','attendanceBtn');
         const url = `/student-data?${queryParams.toString()}`;
-        fetch(`${url}`).then(response=>response.json())
+        fetch(url).then(response=>response.json())
         .then(data=>{
-          const attendance = data;
-          attendanceDiv.textContent = attendance;
+          const attendance = data[0];
+          attendanceDiv.textContent = `Attendance: ${attendance}%`;
         })
         .catch(error=>{
           console.log('error while fetching data',error);

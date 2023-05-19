@@ -63,22 +63,25 @@ app.get('/student-data', (req, res) => {
 
     switch (buttonclicked) {
         case 'attendanceBtn':
-            console.log("hello");
-            query = `SELECT (COUNT(CASE WHEN attendance = 'present' THEN 1 END) / COUNT(*)) * 100 AS attendance_percentage FROM academics WHERE email = "${username}";`;
+            console.log("attendance btn clicked");
+            query = `SELECT (COUNT(CASE WHEN attendance = 'present' THEN 1 END) / COUNT(*)) * 100 AS attendance_percentage FROM academics WHERE email = ?;`;
             break;
         case 'gradesBtn':
+            console.log('grades clicked')
             query = `SELECT gpa FROM academics WHERE email = ?`;
             break;
         default:
-            res.status(500).json({ error: 'invalid' });
+            console.log('default')
+            res.status(500).json({ error: 'no btn clicked' });
             return;
     }
-    conn.query(query, (error, results) => {
+    conn.query(query,[username], (error, results) => {
+        console.log('inside query')
         if (error) {
             console.log(error);
             res.status(500).json({ error: 'some error' })
         } else {
-            const studdata = results;
+            let studdata = results[0];
             res.json(studdata)
         }
     })
