@@ -1,0 +1,55 @@
+<!-- dashboard.ejs -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="/css/style2.css">
+  </head>
+  <header><h1>Welcome to your dashboard, <%= username %>!</h1></header>
+  <body>
+    
+    <button id="attendance-btn">View Attendance</button>
+    <button id="grades-btn">View Grades</button>
+    <div id="attendance"></div>
+    <div id="grades"></div>
+    <script>
+      const attendanceBtn = document.getElementById('attendance-btn');
+      const gradesBtn = document.getElementById('grades-btn');
+      const attendanceDiv = document.getElementById('attendance');
+      const gradesDiv = document.getElementById('grades');
+
+      attendanceBtn.addEventListener('click', () => {
+        // Make an AJAX request to retrieve the attendance data and display it in the attendance div
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            const attendance = JSON.parse(xhr.responseText);
+            const html = attendance.map(a => `<p>${a.date}: ${a.status}</p>`).join('');
+            attendanceDiv.innerHTML = html;
+          }
+        };
+
+        xhr.open('GET', '/attendance');
+        xhr.send();
+      });
+
+      gradesBtn.addEventListener('click', () => {
+        // Make an AJAX request to retrieve the grades data and display it in the grades div
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            const grades = JSON.parse(xhr.responseText);
+            const html = grades.map(g => `<p>${g.subject}: ${g.grade}</p>`).join('');
+            gradesDiv.innerHTML = html;
+          }
+        };
+
+        xhr.open('GET', '/grades');
+        xhr.send();
+      });
+    </script>
+  </body>
+</html>

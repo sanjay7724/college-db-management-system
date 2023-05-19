@@ -1,25 +1,41 @@
+<!-- dashboard.ejs -->
+
 <!DOCTYPE html>
-<head>
-    <link rel="stylesheet" href="../public/css/style2.css">
-    <title>student dashboard</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-    <div class="profile">
-        <table>
-          <tr><th>Name</th>
-            <th>ID</th>
-            <th>Department</th>
-            <th>Attendance</th>
-            <th>GPA</th>
-            
-          </tr>
-          <td>Ram</td>
-          <td>17</td>
-          <td>IT</td>
-          <td>98</td>
-          <td>8.2</td>
-        </table>
-      </div>
-</body>
+<html>
+  <head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="/css/style2.css">
+  </head>
+  <header><h1>Welcome to your dashboard</h1></header>
+  <body>
+    
+    <button id="attendance-btn">View Attendance</button>
+    <button id="grades-btn">View Grades</button>
+    <button id="dob-btn">Date of birth</button>
+    <div id="attendance"></div>
+    <div id="grades"></div>
+    <div id="dob"></div>
+    <script>
+      const attendanceBtn = document.getElementById('attendance-btn');
+      const gradesBtn = document.getElementById('grades-btn');
+      const attendanceDiv = document.getElementById('attendance');
+      const gradesDiv = document.getElementById('grades');
+      const dobbtn=document.getElementById('dob-btn');
+      const dobDiv=document.getElementById('dob');
+
+      attendanceBtn.addEventListener('click',()=>{
+        const queryParams = new URLSearchParams();
+        queryParams.append('button','attendanceBtn');
+        const url = `/student-data?${queryParams.toString()}`;
+        fetch(`${url}`).then(response=>response.json())
+        .then(data=>{
+          const attendance = data;
+          attendanceDiv.textContent = attendance;
+        })
+        .catch(error=>{
+          console.log('error while fetching data',error);
+        })
+      })
+    </script>
+  </body>
+</html>
