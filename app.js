@@ -7,6 +7,7 @@ const conn = require('./database/database');
 const bodyParser = require('body-parser');
 const auth = require('./auth/auth');
 
+
 env.config({ path: 'config.env' })
 
 PORT = process.env.PORT
@@ -40,24 +41,6 @@ app.post('/', (req, res) => {
 
 app.get('/student-data', (req, res) => {
     const buttonclicked = req.query.button; //pass the button identifier as query in parameter
-
-    // let params = [username];
-
-    // let query = '';
-    // switch(buttonclicked){
-    //     case 'attendanceBtn':
-    //         query = `SELECT 
-    //         (COUNT(CASE WHEN attendance = 'present' THEN 1 END) / COUNT(*)) * 100 AS attendance_percentage 
-    //     FROM academics 
-    //     WHERE email = ?;`,[username];
-    //     break;
-    //     case 'gradesBtn':
-    //         query = `select gpa from academics where email=?;`,[username];
-    //     break;
-    //     default:
-    //         res.status(500).json({error:'invalid'})
-    //         return
-    // }
     let query = '';
     //let params = username;
 
@@ -91,23 +74,41 @@ app.get('/student-data', (req, res) => {
     })
 })
 
-/*app.get('/student_dashboard',(req,res)=>{
-    var username = req.body.username;
-
-    if(!username){
-        res.redirect('/');
-        return;
-    }else{
-        conn.query(`select name,student_id,GPA from academics where username=?`,[username],(err,data)=>{
-            if(err){
-                console.log(err);
-                return;
-            }
-            res.render('/views/student_dashboard',{data:data[0]});
-            
-        })
+app.get('/teachers-dashboard',(req,res)=>{
+    const btn = req.query.button;
+    console.log(btn)
+    let query = ''
+    const studid = req.query.student_id;
+    console.log(studid)
+    switch(btn){
+        case 'get-stud-details':
+            console.log('get stud detail button clicked');
+            if (!studid) {
+                console.log('no stud id')
+                return res.status(400).json({ message: 'Invalid student ID' });
+              }
+            query = `select * from academics where student_id =${studid};`;//might be vulnerable to sqli
+            break;
+        default:
+            res.status(500).json({message:'invalid'})
     }
-})*/
+    conn.query(query,(error,details)=>{
+        //console.log(studid)
+        console.log('inside query');
+        console.log(query)
+        if(error){
+            console.log(error);
+            return res.status(500).json({message:'some error'})
+        }else{
+            if(details.length === 0){
+                return res.status(404).json({message:'not found'});
+            }
+            let data = details[0];
+           return res.json(data);
+        }
+    })
+
+})
 
 app.listen(PORT, (req, res) => {
     console.log(`App listening on port ${PORT} `);
