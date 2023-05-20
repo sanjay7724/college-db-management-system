@@ -14,7 +14,7 @@
             </div>
             <form id="update-details" method="post">
               <label for="studentid">student ID</label>
-              <input type="number" id="student_id" name="student_id">
+              <input type="number" id="stu_id" name="student_id">
               <label for="attendance">mark attendance</label>
               <input type="text" id="stud_attendance" name="stud_attendance">
               <label for="cgpa">CGPA</label>
@@ -29,6 +29,7 @@
         const getstuddetails = document.getElementById('get-stud-detail');
         const detailsDiv = document.getElementById('details');
         const studid = document.getElementById('student_id');
+        const studentid = document.getElementById('stu_id');
         const updatebtn = document.getElementById('update');
         const studattnd = document.getElementById('stud_attendance');
         const cgpa = document.getElementById('cgpa')
@@ -73,23 +74,24 @@
                 console.log(error);
             })
         })
-        // updatebtn.addEventListener('click',(e)=>{
-        //     e.preventDefault();
-        //     const attnd = studattnd.value;
-        //     const cgpa = cgpa.value;
-        //     const params = new URLSearchParams();
-        //     params.append('button','updatebtn');
-        //     //params.append('student_id',stuid);
-        //     params.append('attnd',attnd);
-        //     params.append('cgpa',cgpa);
-        //     const url = `/teachers-dashboard?${params.toString()}`;
-        //     fetch(url).then(response=>response.json())
-        //     .then(data=>{
-        //       const data = data[0];
-        //     })
-        //     .catch(error=>{
-        //       console.log(error);
-        //     })
-        // })
+        updatebtn.addEventListener('click',(e)=>{
+            e.preventDefault();
+            const attnd = studattnd.value;
+            const studentcgpa = cgpa.value;
+            const studid = studentid.value;
+            const params = new URLSearchParams();
+            params.append('button','updatebtn');
+            params.append('student_id',studid);
+            params.append('attnd',attnd);
+            params.append('cgpa',studentcgpa);
+            const url = `/teachers-dashboard?${params.toString()}`;
+            fetch(url).then(response=>response.json())
+            .then(data=>{
+              const d = data[0];
+            })
+            .catch(error=>{
+              console.log('some error',error);
+            })
+        })
     </script>
 </html>

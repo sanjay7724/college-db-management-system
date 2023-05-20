@@ -81,7 +81,7 @@ app.get('/teachers-dashboard',(req,res)=>{
     const studid = req.query.student_id;
     const attnd = req.query.attnd;
     const cgpa = req.query.cgpa;
-    console.log(studid)
+    console.log(cgpa)
     switch(btn){
         case 'get-stud-details':
             console.log('get stud detail button clicked');
@@ -93,7 +93,7 @@ app.get('/teachers-dashboard',(req,res)=>{
             break;
         case 'updatebtn':
             console.log('inside update button');
-            query = `update academics set attendance=${attnd} and GPA=${cgpa} where student_id=${studid}`;//might be vulnerable to sqli
+            query = `update academics set attendance="${attnd}" , GPA=${cgpa} where student_id=${studid};`;//might be vulnerable to sqli
             break;
 
         default:
