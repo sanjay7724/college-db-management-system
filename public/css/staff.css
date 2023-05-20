@@ -1,56 +1,65 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-  }
+  font-family: Arial, sans-serif;
+}
 
-  h1 {
-    text-align: center;
-  }
+header {
+  background-color: #2bd64d;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+}
 
-  form {
-    margin-bottom: 20px;
-  }
+h1 {
+  margin: 0;
+}
 
-  label {
-    font-weight: bold;
-  }
+form {
+  margin-bottom: 20px;
+  text-align: center;
+}
 
-  input[type='number'] {
-    width: 200px;
-    padding: 5px;
-    margin-bottom: 10px;
-  }
+.view-details {
+  margin-bottom: 10px;
+  text-align: center;
+}
 
-  button {
-    padding: 10px 20px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
+label {
+  display: inline-block;
+  width: 100px;
+  font-weight: bold;
+}
 
-  button:hover {
-    background-color: #45a049;
-  }
+input[type="number"],
+input[type="text"] {
+  width: 200px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
 
-  #details {
-    margin-top: 20px;
-  }
+button {
+  padding: 5px 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+#details {
+  margin-top: 20px;
+}
 
-  th,
-  td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-  th {
-    background-color: #4caf50;
-    color: white;
-  }
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}

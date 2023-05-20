@@ -9,16 +9,29 @@
         <form id="view-details" method="get">
             <div class="view-details">
                 <label for="student-id">Enter student ID:</label>
-                <input type="number" id="student_id" name="student_id"><br>
+                <input type="number" id="student_id" name="student_id">
                 <button id="get-stud-detail" type="submit">Search</button>
             </div>
+            <form id="update-details" method="post">
+              <label for="studentid">student ID</label>
+              <input type="number" id="student_id" name="student_id">
+              <label for="attendance">mark attendance</label>
+              <input type="text" id="stud_attendance" name="stud_attendance">
+              <label for="cgpa">CGPA</label>
+              <input type="number" id="cgpa" name="cgpa"><br>
+              
+              <button id="update" type="submit">update</button>
+            </form>
         </form>
         <div id="details"></div>
     </body>
     <script>
         const getstuddetails = document.getElementById('get-stud-detail');
         const detailsDiv = document.getElementById('details');
-        const studid = document.getElementById('student_id')
+        const studid = document.getElementById('student_id');
+        const updatebtn = document.getElementById('update');
+        const studattnd = document.getElementById('stud_attendance');
+        const cgpa = document.getElementById('cgpa')
 
         getstuddetails.addEventListener('click',(e)=>{
             e.preventDefault()//to prevent from refreshing and redirecting to login page
@@ -60,5 +73,23 @@
                 console.log(error);
             })
         })
+        // updatebtn.addEventListener('click',(e)=>{
+        //     e.preventDefault();
+        //     const attnd = studattnd.value;
+        //     const cgpa = cgpa.value;
+        //     const params = new URLSearchParams();
+        //     params.append('button','updatebtn');
+        //     //params.append('student_id',stuid);
+        //     params.append('attnd',attnd);
+        //     params.append('cgpa',cgpa);
+        //     const url = `/teachers-dashboard?${params.toString()}`;
+        //     fetch(url).then(response=>response.json())
+        //     .then(data=>{
+        //       const data = data[0];
+        //     })
+        //     .catch(error=>{
+        //       console.log(error);
+        //     })
+        // })
     </script>
 </html>
