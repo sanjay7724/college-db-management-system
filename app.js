@@ -64,11 +64,15 @@ app.get('/student-data', (req, res) => {
     switch (buttonclicked) {
         case 'attendanceBtn':
             console.log("attendance btn clicked");
-            query = `SELECT (COUNT(CASE WHEN attendance = 'present' THEN 1 END) / COUNT(*)) * 100 AS attendance_percentage FROM academics WHERE email = ?;`;
+            query = `SELECT (COUNT(CASE WHEN attendance = 'present' THEN 1 END) / COUNT(*)) * 100 AS attendance FROM academics WHERE email = ?;`;
             break;
         case 'gradesBtn':
             console.log('grades clicked')
             query = `SELECT gpa FROM academics WHERE email = ?`;
+            break;
+        case 'dobbtn':
+            console.log('DOB button clicked');
+            query= `SELECT date_of_birth from student where email=?`;
             break;
         default:
             console.log('default')

@@ -29,11 +29,38 @@
         const url = `/student-data?${queryParams.toString()}`;
         fetch(url).then(response=>response.json())
         .then(data=>{
-          const attendance = data[0];
+          const attendance = data.attendance;
           attendanceDiv.textContent = `Attendance: ${attendance}%`;
         })
         .catch(error=>{
           console.log('error while fetching data',error);
+        })
+      })
+      gradesBtn.addEventListener('click',()=>{
+        const queryParams = new URLSearchParams();
+        queryParams.append('button','gradesBtn');
+        const url = `/student-data?${queryParams.toString()}`;
+        fetch(url).then(response=>response.json())
+        .then(data=>{
+          const grades = data.gpa;
+          gradesDiv.textContent = `Your cgpa is: ${grades}`;
+        })
+        .catch(error=>{
+          console.log('error while fetching data: ',error);
+        })
+      })
+
+      dobbtn.addEventListener('click',()=>{
+        const queryParams = new URLSearchParams();
+        queryParams.append('button','dobbtn');
+        const url = `/student-data?${queryParams.toString()}`;
+        fetch(url).then(response=>response.json())
+        .then(data=>{
+          const dob = data.date_of_birth;
+          dobDiv.textContent = `your DOB is: ${dob}`;
+        })
+        .catch(error=>{
+          console.log('error while fetching data: ',error);
         })
       })
     </script>
