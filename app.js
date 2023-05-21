@@ -117,6 +117,42 @@ app.get('/teachers-dashboard',(req,res)=>{
 
 })
 
+
+app.get('/admin',(req,res)=>{
+    const btn = req.query.button;
+    const stuid=req.query.stuid;
+    const email=req.query.stuemail;
+    const name = req.query.stuname;
+    const dob = req.query.Dob;
+    const dept = req.query.department;
+    const mobile = req.query.mobile;
+    console.log(email);
+    let query=''
+    switch(btn){
+        case 'add_stud':
+            console.log('addstud button clicked');
+            query = `insert into student(email,name,date_of_birth,department,mobile) values("${email}","${name}","${dob}","${dept}",${mobile});`//vulnerable to sqli
+            break;
+        case 'addstaff':
+            console.log('addstaff');
+            query='';
+            break;
+        default:
+            return res.status(500).json({message:'invalid'});
+    }
+
+    conn.query(query,(error,details)=>{
+        if(error){
+            console.log(error);
+        }
+        let data=details[0];
+        return res.json(data);
+    })
+
+    console.log(btn);
+    console.log('admin')
+})
+
 app.listen(PORT, (req, res) => {
     console.log(`App listening on port ${PORT} `);
 })

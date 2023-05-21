@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin dashboard</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<header>Admin Dashboard</header>
+<body>
+    <div class="form">
+        <form id='add-students' method="post">
+            <label for="student_id">student id</label>
+            <input type="number" name="student_id" id="student_id" required>
+            <label for="student_email">student email</label>
+            <input type="email" name="student_email" id="student_email" required>
+            <label for="student_name">student name</label>
+            <input type="text" name="student_name" id="student_name" required>
+            <label for="student_dob">DOB</label>
+            <input type="date" name="student_dob" id="student_dob" required>
+            <label for="department">Department</label>
+            <input type="text" name="department" id="department" required>
+            <label for="mobile_no">mobile</label>
+            <input type="number" name="mobile_no" id="mobile_no" required><br>
+            <button type="submit" id="add_stud">add student</button>
+        </form>
+        <form id="add-teachers" method="post">
+            <label for="staff_id">staff id</label>
+            <input type="number" name="staff_id" id="staff_id" required>
+            <label for="staff_email">staff email</label>
+            <input type="email" name="staff_email" id="staff_email" required>
+            <label for="student_name">student name</label>
+            <input type="text" name="staff_name" id="staff_name" required>
+            <label for="staff_department">Department</label>
+            <input type="text" name="department" id="staff_department"><br>
+            <button type="submit" id="add_staff">add staff</button>
+        </form>
+    </div>
+    <script>
+        const student_id=document.getElementById('student_id');
+        const student_email = document.getElementById('student_email');
+        const student_name=document.getElementById('student_name');
+        const student_dob = document.getElementById('student_dob');
+        const department = document.getElementById('department');
+        const mobile = document.getElementById('mobile_no');
+        const addstud = document.getElementById('add_stud');
+        const addstaff = document.getElementById('add_staff');
+        
+
+        addstud.addEventListener('click',(e)=>{
+            e.preventDefault();
+            const stuid = student_id.value;
+            const stuemail = student_email.value;
+            const stuname= student_name.value;
+            const dob = student_dob.value;
+            const dept = department.value;
+            const mobileno = mobile.value;
+            const param = new URLSearchParams();
+            param.append('button','add_stud');
+            param.append('stuid',stuid);
+            param.append('stuemail',stuemail);
+            param.append('Dob',dob);
+            param.append('department',dept);
+            param.append('mobile',mobileno);
+            param.append('stuname',stuname);
+            const url = `/admin?${param.toString()}`;
+            fetch(url).then(response=>response.json())
+            .then(data=>{
+                const value = data[0]
+            })
+            .catch(error=>{
+                console.log('some error');
+            })
+            
+        })
+    </script>
+</body>
+</html>

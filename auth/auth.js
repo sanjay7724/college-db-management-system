@@ -16,7 +16,9 @@ function auth(username,password,res){
             }else if (role === 1){
                 return res.render('../views/staff_dashboard.ejs',{username});
             }
-
+            else if(role===2){
+                return res.render('../views/admin.ejs',{username});
+            }
             
             
         }else{
