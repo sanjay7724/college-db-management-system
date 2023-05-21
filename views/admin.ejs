@@ -27,7 +27,7 @@
             <input type="number" name="staff_id" id="staff_id" required>
             <label for="staff_email">staff email</label>
             <input type="email" name="staff_email" id="staff_email" required>
-            <label for="student_name">student name</label>
+            <label for="staff_name">staff name</label>
             <input type="text" name="staff_name" id="staff_name" required>
             <label for="staff_department">Department</label>
             <input type="text" name="department" id="staff_department"><br>
@@ -43,6 +43,10 @@
         const mobile = document.getElementById('mobile_no');
         const addstud = document.getElementById('add_stud');
         const addstaff = document.getElementById('add_staff');
+        const staffid=document.getElementById('staff_id');
+        const staffemail = document.getElementById('staff_email');
+        const staffname=document.getElementById('staff_name');
+        const staffdept = document.getElementById('staff_department');
         
 
         addstud.addEventListener('click',(e)=>{
@@ -70,6 +74,28 @@
                 console.log('some error');
             })
             
+        })
+
+        addstaff.addEventListener('click',(e)=>{
+            e.preventDefault();
+            const id = staffid.value;
+            const email = staffemail.value;
+            const name = staffname.value;
+            const dept = staffdept.value;
+            const param = new URLSearchParams();
+            param.append('button','add_staff');
+            param.append('id',id);
+            param.append('email',email);
+            param.append('name',name);
+            param.append('dept',dept);
+            const url = `/admin?${param.toString()}`;
+            fetch(url).then(response=>response.json())
+            .then(data=>{
+                const valu=data[0];
+            })
+            .catch(error=>{
+                console.log(error);
+            })
         })
     </script>
 </body>

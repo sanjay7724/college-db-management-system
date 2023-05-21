@@ -126,6 +126,10 @@ app.get('/admin',(req,res)=>{
     const dob = req.query.Dob;
     const dept = req.query.department;
     const mobile = req.query.mobile;
+    //staff details
+    const staff_email = req.query.email;
+    const staff_name = req.query.name;
+    const staff_dept = req.query.dept;
     console.log(email);
     let query=''
     switch(btn){
@@ -133,9 +137,9 @@ app.get('/admin',(req,res)=>{
             console.log('addstud button clicked');
             query = `insert into student(email,name,date_of_birth,department,mobile) values("${email}","${name}","${dob}","${dept}",${mobile});`//vulnerable to sqli
             break;
-        case 'addstaff':
+        case 'add_staff':
             console.log('addstaff');
-            query='';
+            query=`insert into teacher(email,name,department) values("${staff_email}","${staff_name}","${staff_dept}");`;//vulnerable to sqli
             break;
         default:
             return res.status(500).json({message:'invalid'});
