@@ -21,6 +21,8 @@ form {
 .view-details {
   margin-bottom: 10px;
   text-align: center;
+  border-width: 5px;
+  border:#333
 }
 
 label {
