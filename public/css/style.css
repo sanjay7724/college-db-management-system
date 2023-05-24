@@ -11,7 +11,7 @@ body {
     flex-direction: column;
     justify-content: center;
     /* align-items: center; */
-    box-shadow: #cccccc63 0 0 17px 20px;
+    box-shadow: #bebebe 0 0 20px 12px;
     backdrop-filter: blur(8px);
     color: #141526;
     padding: 20px;

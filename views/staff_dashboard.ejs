@@ -1,97 +1,190 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Staff dashboard</title>
-        <link rel="stylesheet" href="/css/staff.css">
-    </head>
-    <header><h1>Welcome to staff dasboard</h1></header>
-    <body>
-        <form id="view-details" method="get">
-            <div class="view-details">
-                <label for="student-id">Enter student ID:</label>
-                <input type="number" id="student_id" name="student_id">
-                <button id="get-stud-detail" type="submit">Search</button>
-            </div>
-            <form id="update-details" method="post">
-              <label for="studentid">student ID</label>
-              <input type="number" id="stu_id" name="student_id">
-              <label for="attendance">mark attendance</label>
-              <input type="text" id="stud_attendance" name="stud_attendance">
-              <label for="cgpa">CGPA</label>
-              <input type="number" id="cgpa" name="cgpa"><br><br>
-              
-              <button id="update" type="submit">update</button>
-            </form>
-        </form>
-        <div id="details"></div>
-    </body>
-    <script>
-        const getstuddetails = document.getElementById('get-stud-detail');
-        const detailsDiv = document.getElementById('details');
-        const studid = document.getElementById('student_id');
-        const studentid = document.getElementById('stu_id');
-        const updatebtn = document.getElementById('update');
-        const studattnd = document.getElementById('stud_attendance');
-        const cgpa = document.getElementById('cgpa')
 
-        getstuddetails.addEventListener('click',(e)=>{
-            e.preventDefault()//to prevent from refreshing and redirecting to login page
-            const stuid = studid.value;
-            if(!stuid){
-                return;
-            }
-            const queryParams = new URLSearchParams();
-            queryParams.append('button','get-stud-details');
-            queryParams.append('student_id',stuid);
-            const url = `/teachers-dashboard?${queryParams.toString()}`;
-            fetch(url).then(response=>response.json())
-            .then(data=>{
-                if (data && Object.keys(data).length > 0) {
-            const tableHTML = `
+<head>
+  <title>Staff dashboard</title>
+  <link rel="stylesheet" href="/css/staff.css">
+  <style>
+    .staff-container {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+    .inner-container{
+      box-shadow: #bebebe 0 0 20px 12px;
+      padding: 10px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #view-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .view-details {
+      display: flex;
+      flex-direction: column;
+      margin: 1rem;
+      padding: 1rem;
+      justify-content: center;
+      align-items: center;
+    }
+
+    label {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .btn {
+      padding: 15px 25px;
+      width: 50%;
+      /* margin: 0 0 0 70px; */
+      border: unset;
+      border-radius: 15px;
+      color: #212121;
+      z-index: 1;
+      background: #e8e8e8;
+      position: relative;
+      font-weight: 1000;
+      font-size: 17px;
+      -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+      box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+      transition: all 250ms;
+      overflow: hidden;
+      width: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      border-radius: 15px;
+      background-color: #212121;
+      z-index: -1;
+      -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+      box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+      transition: all 250ms
+    }
+
+    .btn:hover {
+      background-color: #212121;
+      color: #e8e8e8;
+    }
+
+    .btn:hover::before {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="staff-container">
+    <div class="inner-container">
+      <h1>Welcome to staff Dashboard</h1>
+      <form id="view-details" method="get">
+        <div class="view-details">
+          <label for="student-id">Enter student ID:</label>
+          <input type="number" id="student_id" name="student_id">
+          <button id="get-stud-detail" class="btn" type="submit">Search</button>
+        </div>
+        <form id="update-details" method="post">
+          <label for="studentid">student ID</label>
+          <input type="number" id="stu_id" name="student_id">
+          <label for="attendance">mark attendance</label>
+          <input type="text" id="stud_attendance" name="stud_attendance">
+          <label for="cgpa">CGPA</label>
+          <input type="number" id="cgpa" name="cgpa"><br><br>
+
+          <button id="update" class="btn" type="submit">update</button>
+        </form>
+      </form>
+      <div id="details"></div>
+    </div>
+  </div>
+</body>
+<script>
+  const getstuddetails = document.getElementById('get-stud-detail');
+  const detailsDiv = document.getElementById('details');
+  const studid = document.getElementById('student_id');
+  const studentid = document.getElementById('stu_id');
+  const updatebtn = document.getElementById('update');
+  const studattnd = document.getElementById('stud_attendance');
+  const cgpa = document.getElementById('cgpa')
+
+  getstuddetails.addEventListener('click', (e) => {
+    e.preventDefault()//to prevent from refreshing and redirecting to login page
+    const stuid = studid.value;
+    if (!stuid) {
+      return;
+    }
+    const queryParams = new URLSearchParams();
+    queryParams.append('button', 'get-stud-details');
+    queryParams.append('student_id', stuid);
+    const url = `/teachers-dashboard?${queryParams.toString()}`;
+    fetch(url).then(response => response.json())
+      .then(data => {
+        if (data && Object.keys(data).length > 0) {
+          const tableHTML = `
               <table>
                 <thead>
                   <tr>
                     ${Object.keys(data)
-                      .map((key) => `<th>${key}</th>`)
-                      .join('')}
+              .map((key) => `<th>${key}</th>`)
+              .join('')}
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     ${Object.values(data)
-                      .map((value) => `<td>${value}</td>`)
-                      .join('')}
+              .map((value) => `<td>${value}</td>`)
+              .join('')}
                   </tr>
                 </tbody>
               </table>
             `;
-            detailsDiv.innerHTML = tableHTML;
-          } else {
-            detailsDiv.innerHTML = 'No student details found';
-          }
-            })
-            .catch(error=>{
-                console.log(error);
-            })
-        })
-        updatebtn.addEventListener('click',(e)=>{
-            e.preventDefault();
-            const attnd = studattnd.value;
-            const studentcgpa = cgpa.value;
-            const studid = studentid.value;
-            const params = new URLSearchParams();
-            params.append('button','updatebtn');
-            params.append('student_id',studid);
-            params.append('attnd',attnd);
-            params.append('cgpa',studentcgpa);
-            const url = `/teachers-dashboard?${params.toString()}`;
-            fetch(url).then(response=>response.json())
-            .then(data=>{
-              const d = data[0];
-            })
-            .catch(error=>{
-              console.log('some error',error);
-            })
-        })
-    </script>
+          detailsDiv.innerHTML = tableHTML;
+        } else {
+          detailsDiv.innerHTML = 'No student details found';
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  })
+  updatebtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const attnd = studattnd.value;
+    const studentcgpa = cgpa.value;
+    const studid = studentid.value;
+    const params = new URLSearchParams();
+    params.append('button', 'updatebtn');
+    params.append('student_id', studid);
+    params.append('attnd', attnd);
+    params.append('cgpa', studentcgpa);
+    const url = `/teachers-dashboard?${params.toString()}`;
+    fetch(url).then(response => response.json())
+      .then(data => {
+        const d = data[0];
+      })
+      .catch(error => {
+        console.log('some error', error);
+      })
+  })
+</script>
+
 </html>
