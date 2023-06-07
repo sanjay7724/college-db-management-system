@@ -95,17 +95,23 @@ app.get('/teachers-dashboard', (req, res) => {
                     console.log(error);
                 }
                 console.log("hi");
+                let data = details[0];
+                return res.json(data);
+                
             })
             break;
         case 'updatebtn':
             console.log('inside update button');
             let q = `update academics set attendance=? , GPA=? where student_id=?;`;
-            conn.query(q, [attnd,cgpa,stuid], (error, details) => {
+            conn.query(q, [attnd,cgpa,studid], (error, details) => {
                 if(error){
                     console.log(error);
                 }
                 console.log("hi");
+                let data = details[0];
+            return res.json(data);
             })
+            
             break;
 
         default:
