@@ -77,7 +77,7 @@ app.get('/student-data', (req, res) => {
 app.get('/teachers-dashboard', (req, res) => {
     const btn = req.query.button;
     console.log(btn)
-    let query = ''
+    //let query = ''
     const studid = req.query.student_id;
     const attnd = req.query.attnd;
     const cgpa = req.query.cgpa;
@@ -89,32 +89,45 @@ app.get('/teachers-dashboard', (req, res) => {
                 console.log('no stud id')
                 return res.status(400).json({ message: 'Invalid student ID' });
             }
-            query = `select * from academics natural join student where student_id =${studid};`;//might be vulnerable to sqli
+            let query = `select * from academics natural join student where student_id =?;`;//might be vulnerable to sqli
+            conn.query(query, [studid], (error, details) => {
+                if(error){
+                    console.log(error);
+                }
+                console.log("hi");
+            })
             break;
         case 'updatebtn':
             console.log('inside update button');
-            query = `update academics set attendance="${attnd}" , GPA=${cgpa} where student_id=${studid};`;//might be vulnerable to sqli
+            let q = `update academics set attendance=? , GPA=? where student_id=?;`;
+            conn.query(q, [attnd,cgpa,stuid], (error, details) => {
+                if(error){
+                    console.log(error);
+                }
+                console.log("hi");
+            })
             break;
 
         default:
             res.status(500).json({ message: 'invalid' })
     }
-    conn.query(query, (error, details) => {
-        //console.log(studid)
-        console.log('inside query');
-        console.log(query)
-        if (error) {
-            console.log(error);
-            return res.status(500).json({ message: 'some error' })
-        } else {
-            if (details.length === 0) {
-                return res.status(404).json({ message: 'not found' });
-            }
-            let data = details[0];
-            return res.json(data);
-        }
-    })
+//     conn.query(query, (error, details) => {
+//         //console.log(studid)
+//         console.log('inside query');
+//         console.log(query)
+//         if (error) {
+//             console.log(error);
+//             return res.status(500).json({ message: 'some error' })
+//         } else {
+//             if (details.length === 0) {
+//                 return res.status(404).json({ message: 'not found' });
+//             }
+//             let data = details[0];
+//             return res.json(data);
+//         }
+//     })
 
+// })
 })
 
 
@@ -148,7 +161,7 @@ app.get('/admin', (req, res) => {
         case 'add_staff':
             console.log('addstaff');
             
-            query=`insert into login_details(username,password) values(staff_email,"pass123")`
+            query=`insert into login_details(username,password) values("${staff_email}","pass123")`
             let q = `insert into teacher(email,name,department) values(?,?,?);`;
             conn.query(q,[staff_email,staff_name,staff_dept], (error, details) => {
                 if (error) {
@@ -174,6 +187,7 @@ app.get('/admin', (req, res) => {
     console.log(btn);
     console.log('admin')
 })
+
 
 app.listen(PORT, (req, res) => {
     console.log(`App listening on port ${PORT} `);
