@@ -111,23 +111,7 @@ app.get('/teachers-dashboard', (req, res) => {
         default:
             res.status(500).json({ message: 'invalid' })
     }
-//     conn.query(query, (error, details) => {
-//         //console.log(studid)
-//         console.log('inside query');
-//         console.log(query)
-//         if (error) {
-//             console.log(error);
-//             return res.status(500).json({ message: 'some error' })
-//         } else {
-//             if (details.length === 0) {
-//                 return res.status(404).json({ message: 'not found' });
-//             }
-//             let data = details[0];
-//             return res.json(data);
-//         }
-//     })
-
-// })
+ 
 })
 
 
@@ -149,9 +133,9 @@ app.get('/admin', (req, res) => {
     switch (btn) {
         case 'add_stud':
             console.log('addstud button clicked');
-             query = `INSERT into academics values(? , CURRENT_DATE ,"absent" , 0 , ?, ?);`
+            query = `INSERT into academics values(? , CURRENT_DATE ,"absent" , 0 , ?, ?);`
             console.log(query)
-            conn.query(`insert into student(id,email,name,date_of_birth,department,mobile) values(?,?,?,?,?,?);`, [stuid, email, name, dob,dept,mobile], (error, details) => {
+            conn.query(`insert into student(id,email,name,date_of_birth,department,mobile) values(?,?,?,?,?,?);insert into login_details(username,password) values("${email}","pass1");`, [stuid, email, name, dob,dept,mobile], (error, details) => {
                 if(error){
                     console.log(error);
                 }
@@ -161,7 +145,7 @@ app.get('/admin', (req, res) => {
         case 'add_staff':
             console.log('addstaff');
             
-            query=`insert into login_details(username,password) values("${staff_email}","pass123")`
+            query=`insert into login_details(username,password,id_staff) values("${staff_email}","pass123",1 )`
             let q = `insert into teacher(email,name,department) values(?,?,?);`;
             conn.query(q,[staff_email,staff_name,staff_dept], (error, details) => {
                 if (error) {
