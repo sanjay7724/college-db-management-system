@@ -136,7 +136,7 @@ app.get('/admin', (req, res) => {
     switch (btn) {
         case 'add_stud':
             console.log('addstud button clicked');
-            query = `INSERT into academics values(${stuid} , CURRENT_DATE ,"absent" , 0 , "${name}", "${email}");`//vulnerable to sqli
+             query = `INSERT into academics values(? , CURRENT_DATE ,"absent" , 0 , ?, ?);`
             console.log(query)
             conn.query(`insert into student(id,email,name,date_of_birth,department,mobile) values(?,?,?,?,?,?);`, [stuid, email, name, dob,dept,mobile], (error, details) => {
                 if(error){
@@ -147,13 +147,23 @@ app.get('/admin', (req, res) => {
             break;
         case 'add_staff':
             console.log('addstaff');
-            query = `insert into teacher(email,name,department) values("${staff_email}","${staff_name}","${staff_dept}");`;//vulnerable to sqli
+            
+            query=`insert into login_details(username,password) values(staff_email,"pass123")`
+            let q = `insert into teacher(email,name,department) values(?,?,?);`;
+            conn.query(q,[staff_email,staff_name,staff_dept], (error, details) => {
+                if (error) {
+                    console.log(error);
+                }
+                let data = details[0];
+                return res.json(data);
+            })
             break;
         default:
             return res.status(500).json({ message: 'invalid' });
     }
 
-    conn.query(query, (error, details) => {
+    conn.query(query,[stuid,name,email], (error, details) => {
+        console.log(stuid,email,name);
         if (error) {
             console.log(error);
         }
